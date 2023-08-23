@@ -78,11 +78,20 @@ class Fantasia3D(BaseLift3DSystem):
             ):
                 cond_inp = out["comp_normal_viewspace"]
                 guidance_out = self.guidance(
-                    guidance_inp, cond_inp, prompt_utils, **batch, rgb_as_latents=False
+                    guidance_inp,
+                    cond_inp,
+                    prompt_utils,
+                    **batch,
+                    rgb_as_latents=False,
+                    current_step_ratio=self.true_global_step / self.trainer.max_steps,
                 )
             else:
                 guidance_out = self.guidance(
-                    guidance_inp, prompt_utils, **batch, rgb_as_latents=False
+                    guidance_inp,
+                    prompt_utils,
+                    **batch,
+                    rgb_as_latents=False,
+                    current_step_ratio=self.true_global_step / self.trainer.max_steps,
                 )
 
         for name, value in guidance_out.items():
