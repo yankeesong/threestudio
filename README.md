@@ -39,6 +39,10 @@ threestudio is a unified framework for 3D content creation from text prompts, si
     Did not find what you want? Submit a feature request or upvote others' requests <a href="https://github.com/threestudio-project/threestudio/discussions/46">here</a>!
 </p>
 
+这个branch和main的主要区别是将controlnet, vsd loss和annealing的功能结合（threestudio的开源代码暂时没有PR）。
+controlnet和annealing的用法参见下方Fantasia3D的texture部分
+vsd loss可以直接在config文件中修改（参见fantasia3d-texture.yaml）
+
 ## News
 
 - 07/06/2023: Join our [Discord server](https://discord.gg/ejer2MAB8N) for lively discussions!
@@ -401,6 +405,8 @@ python launch.py --config configs/fantasia3d.yaml --train --gpu 0 system.prompt_
 python launch.py --config configs/fantasia3d-texture.yaml --train --gpu 0 system.prompt_processor.prompt="a DSLR photo of an ice cream sundae" system.geometry_convert_from=path/to/geometry/stage/trial/dir/ckpts/last.ckpt
 # To train PBR texture from a custom (fixed) geometry: you need to change fantasia3d-texture.yaml, see comments there.
 python launch.py --config configs/fantasia3d-texture.yaml --train --gpu 0 system.prompt_processor.prompt="a girl" system.geometry.shape_init=mesh:/path/to/custom/geometry/girl.ply
+# To allow annealing: the values can be adjusted to emphasize different noise levels. See [Dreamtime Paper](https://arxiv.org/pdf/2306.12422.pdf) for reference.
+python launch.py --config configs/fantasia3d-texture.yaml --train --gpu 0 system.prompt_processor.prompt="a girl" system.geometry.shape_init=mesh:/path/to/custom/geometry/girl.ply system.guidance.time_prior=[800,500,300,100]
 # You can also allow stronger control using ControlNet and normal map from geometry. See comments in fantasia3d-texture.yaml.
 ```
 
